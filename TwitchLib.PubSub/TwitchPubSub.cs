@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using System.Threading.Tasks;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Enums;
 using TwitchLib.Communication.Events;
@@ -475,7 +476,7 @@ namespace TwitchLib.PubSub
                             }
                             break;
                         case "following":
-                            var f = (Following) msg.MessageData;
+                            var f = (Following)msg.MessageData;
                             f.FollowedChannelId = msg.Topic.Split('.')[1];
                             OnFollow?.Invoke(this, new OnFollowArgs { FollowedChannelId = f.FollowedChannelId, DisplayName = f.DisplayName, UserId = f.UserId, Username = f.Username });
                             return;
@@ -487,7 +488,7 @@ namespace TwitchLib.PubSub
                                     OnRewardRedeemed?.Invoke(this, new OnRewardRedeemedArgs { TimeStamp = cpc.TimeStamp, ChannelId = cpc.ChannelId, Login = cpc.Login, DisplayName = cpc.DisplayName, Message = cpc.Message, RewardId = cpc.RewardId, RewardTitle = cpc.RewardTitle, RewardPrompt = cpc.RewardPrompt, RewardCost = cpc.RewardCost, Status = cpc.Status });
                                     return;
                                 case CommunityPointsChannelType.CustomRewardUpdated:
-                                    OnCustomRewardUpdated?.Invoke(this, new OnCustomRewardUpdatedArgs { TimeStamp = cpc.TimeStamp, ChannelId =  cpc.ChannelId, RewardId = cpc.RewardId, RewardTitle = cpc.RewardTitle, RewardPrompt = cpc.RewardPrompt, RewardCost = cpc.RewardCost });
+                                    OnCustomRewardUpdated?.Invoke(this, new OnCustomRewardUpdatedArgs { TimeStamp = cpc.TimeStamp, ChannelId = cpc.ChannelId, RewardId = cpc.RewardId, RewardTitle = cpc.RewardTitle, RewardPrompt = cpc.RewardPrompt, RewardCost = cpc.RewardCost });
                                     return;
                                 case CommunityPointsChannelType.CustomRewardCreated:
                                     OnCustomRewardCreated?.Invoke(this, new OnCustomRewardCreatedArgs { TimeStamp = cpc.TimeStamp, ChannelId = cpc.ChannelId, RewardId = cpc.RewardId, RewardTitle = cpc.RewardTitle, RewardPrompt = cpc.RewardPrompt, RewardCost = cpc.RewardCost });
@@ -514,10 +515,10 @@ namespace TwitchLib.PubSub
                             switch (r?.Type)
                             {
                                 case RaidType.RaidUpdate:
-                                    OnRaidUpdate?.Invoke(this, new OnRaidUpdateArgs{ Id = r.Id, ChannelId = r.ChannelId , TargetChannelId = r.TargetChannelId, AnnounceTime = r.AnnounceTime, RaidTime = r.RaidTime, RemainingDurationSeconds = r.RemainigDurationSeconds, ViewerCount = r.ViewerCount });
+                                    OnRaidUpdate?.Invoke(this, new OnRaidUpdateArgs { Id = r.Id, ChannelId = r.ChannelId, TargetChannelId = r.TargetChannelId, AnnounceTime = r.AnnounceTime, RaidTime = r.RaidTime, RemainingDurationSeconds = r.RemainigDurationSeconds, ViewerCount = r.ViewerCount });
                                     return;
                                 case RaidType.RaidUpdateV2:
-                                    OnRaidUpdateV2?.Invoke(this, new OnRaidUpdateV2Args{ Id = r.Id, ChannelId = r.ChannelId, TargetChannelId = r.TargetChannelId, TargetLogin = r.TargetLogin, TargetDisplayName = r.TargetDisplayName, TargetProfileImage = r.TargetProfileImage, ViewerCount = r.ViewerCount });
+                                    OnRaidUpdateV2?.Invoke(this, new OnRaidUpdateV2Args { Id = r.Id, ChannelId = r.ChannelId, TargetChannelId = r.TargetChannelId, TargetLogin = r.TargetLogin, TargetDisplayName = r.TargetDisplayName, TargetProfileImage = r.TargetProfileImage, ViewerCount = r.ViewerCount });
                                     return;
                                 case RaidType.RaidGo:
                                     OnRaidGo?.Invoke(this, new OnRaidGoArgs { Id = r.Id, ChannelId = r.ChannelId, TargetChannelId = r.TargetChannelId, TargetLogin = r.TargetLogin, TargetDisplayName = r.TargetDisplayName, TargetProfileImage = r.TargetProfileImage, ViewerCount = r.ViewerCount });
@@ -755,9 +756,9 @@ namespace TwitchLib.PubSub
         /// <summary>
         /// Method to connect to Twitch's PubSub service. You MUST listen toOnConnected event and listen to a Topic within 15 seconds of connecting (or be disconnected)
         /// </summary>
-        public void Connect()
+        public Task Connect()
         {
-            _socket.Open();
+            return _socket.Open();
         }
 
         /// <inheritdoc />

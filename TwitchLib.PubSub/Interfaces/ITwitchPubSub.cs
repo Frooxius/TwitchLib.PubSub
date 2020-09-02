@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using TwitchLib.PubSub.Events;
 
 namespace TwitchLib.PubSub.Interfaces
@@ -51,7 +52,7 @@ namespace TwitchLib.PubSub.Interfaces
         /// <summary>
         /// Occurs when [on message deleted].
         /// </summary>
-        event EventHandler<OnMessageDeletedArgs> OnMessageDeleted; 
+        event EventHandler<OnMessageDeletedArgs> OnMessageDeleted;
         /// <summary>
         /// Occurs when [on listen response].
         /// </summary>
@@ -147,7 +148,7 @@ namespace TwitchLib.PubSub.Interfaces
         /// <summary>
         /// Occurs when [on raid go]
         /// </summary>
-        event EventHandler<OnRaidGoArgs> OnRaidGo; 
+        event EventHandler<OnRaidGoArgs> OnRaidGo;
         /// <summary>
         /// Occurs when [on log].
         /// </summary>
@@ -156,7 +157,7 @@ namespace TwitchLib.PubSub.Interfaces
         /// <summary>
         /// Connects this instance.
         /// </summary>
-        void Connect();
+        Task Connect();
         /// <summary>
         /// Disconnects this instance.
         /// </summary>
